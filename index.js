@@ -5,20 +5,21 @@ const ObjectId = require("mongodb").ObjectId;
 require('dotenv').config();
 const cors = require("cors");
 const app=express();
-const port = 5000;
+const port = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json())
 
 
 
-const uri = "mongodb+srv://educationHelpline:UqCdI7MoGGv7GdvT@cluster0.438fy.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.438fy.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
 
 
-// educationHelpline
-// UqCdI7MoGGv7GdvT
+
+
 
 
 async function run() {
@@ -28,6 +29,7 @@ async function run() {
         console.log("connected to database");
         const database = client.db('education');
         const userCollection = database.collection('users');
+        
 
 
 
@@ -41,6 +43,8 @@ async function run() {
             res.json(result);
            
         })
+
+        
 
         app.put('/users', async(req,res) =>{
             const user=req.body;
